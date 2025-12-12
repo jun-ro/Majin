@@ -1,0 +1,19 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;           /* Keeps your original flex */
+  justify-content: center; /* Centers the canvas horizontally */
+  align-items: center;     /* Centers vertically */
+  background-color: #f0f0f0; /* Optional: Background to see canvas bounds */
+}
+
+#app {
+  width: 800px;  /* Your fixed display width */
+  height: 600px; /* Your fixed display height */
+  border: 1px solid #ccc; /* Optional: Border to visualize the canvas */
+  /* Optional: For crisp rendering (e.g., no blur on edges) */
+  image-rendering: pixelated;
+  image-rendering: -webkit-optimize-contrast;
+}
