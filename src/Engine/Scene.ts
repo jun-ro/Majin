@@ -24,6 +24,21 @@ export class SceneClass {
     // Optionally: Trigger a render here if not in loop
   }
 
+  // In SceneClass, add this method:
+  createLine(x1: number, y1: number, x2: number, y2: number, color: string, lineWidth: number = 1) {
+    const line = {
+      type: 'line' as const,
+      x1,
+      y1,
+      x2,
+      y2,
+      color,
+      lineWidth
+    };
+    this.buffer.push(line);
+    return line;
+  }
+
   // Add more create methods later (e.g., createCircle)
 
   // Get current buffer (for renderer loop)

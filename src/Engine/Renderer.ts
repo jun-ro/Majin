@@ -91,18 +91,22 @@ export class RendererClass {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  // Private: Draw a single item (expandable; for now, handles basic rect)
   private drawItem(item: any) {
     if (item.type === 'rect' && item.color) {
       const halfW = (item.width || 0) / 2;
       const halfH = (item.height || 0) / 2;
       this.ctx.fillStyle = item.color;
-      this.ctx.fillRect(item.x - halfW, item.y - halfH, item.width, item.height);}
-    // Add more cases (circle, etc.) later
-    // For now, logs others as fallback
-    // console.log('Rendering item:', item);
+      this.ctx.fillRect(item.x - halfW, item.y - halfH, item.width, item.height);
+    } else if (item.type === 'line' && item.color) {
+      // Draw line with camera transformations applied
+      this.ctx.strokeStyle = item.color;
+      this.ctx.lineWidth = item.lineWidth || 1;
+      this.ctx.beginPath();
+      this.ctx.moveTo(item.x1, item.y1);
+      this.ctx.lineTo(item.x2, item.y2);
+      this.ctx.stroke();
+    }
   }
-
   // Bare-bones loop (fixed deltaTime init)
   startLoop(callback: () => any[]) {
     if (this.isRunning()) return; // Prevent double-start
