@@ -71,14 +71,23 @@ export class RendererClass {
   render(buffer: any[]) {
     this.clear();
 
+    // Sort items by zIndex: lower numbers first, higher numbers last
+    // We create a copy [...buffer] to avoid mutating the original scene array
+    const sortedBuffer = [...buffer].sort((a, b) => {
+      const zA = a.zIndex || 0;
+      const zB = b.zIndex || 0;
+      return zA - zB;
+    });
+
     this.ctx.save();
-    this.ctx.translate(this.canvas.width/2, this.canvas.height/2);
+    this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
     this.ctx.translate(-this.camera.x, -this.camera.y);
-    if(this.camera.fov !== 1){
+    
+    if (this.camera.fov !== 1) {
       this.ctx.scale(this.camera.fov, this.camera.fov);
     }
 
-    for (const item of buffer) {
+    for (const item of sortedBuffer) {
       this.drawItem(item);
     }
 

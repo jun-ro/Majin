@@ -3,57 +3,77 @@ import { RendererClass } from "./Renderer.ts";
 
 export class SceneClass {
   private renderer: RendererClass;
-  private buffer: any[] = []; // Holds scene items (e.g., rects)
+  private buffer: any[] = [];
 
   constructor(renderer: RendererClass) {
     this.renderer = renderer;
   }
 
-  // Create and add a rect to the buffer
-  createRect(x: number, y: number, width: number, height: number, color: string) {
+  private removeItem(item: any) {
+    const index = this.buffer.indexOf(item);
+    if (index > -1) {
+      this.buffer.splice(index, 1);
+    }
+  }
+
+  createRect(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    color: string,
+    zIndex: number = 0, // Added zIndex parameter
+  ) {
     const rect = {
-      type: 'rect',
+      type: "rect",
       x,
       y,
       width,
       height,
-      color
+      color,
+      zIndex, // Store zIndex
+      destroy: () => this.removeItem(rect),
     };
+
     this.buffer.push(rect);
     return rect;
-    // Optionally: Trigger a render here if not in loop
   }
 
-  // In SceneClass, add this method:
-  createLine(x1: number, y1: number, x2: number, y2: number, color: string, lineWidth: number = 1) {
+  createLine(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    color: string,
+    lineWidth: number = 1,
+    zIndex: number = 0, // Added zIndex parameter
+  ) {
     const line = {
-      type: 'line' as const,
+      type: "line" as const,
       x1,
       y1,
       x2,
       y2,
       color,
-      lineWidth
+      lineWidth,
+      zIndex, // Store zIndex
+      destroy: () => this.removeItem(line),
     };
+
     this.buffer.push(line);
     return line;
   }
 
-  // Add more create methods later (e.g., createCircle)
-
-  // Get current buffer (for renderer loop)
   getBuffer() {
     return this.buffer;
   }
 
-  // Clear scene buffer
   clear() {
     this.buffer = [];
   }
 
-  // Start the render loop with this scene
   start() {
-    this.renderer.startLoop(() => this.getBuffer()); // Passes scene buffer to renderer
+    this.renderer.startLoop(() => this.getBuffer());
   }
 
   stop() {
