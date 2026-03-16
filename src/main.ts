@@ -16,4 +16,4 @@ Engine.mountApp(canvas)
 
 const Game = Engine.Create();
 const InputService = Game.InputService
-Game.setModules(["../modules/grid.ts", "../modules/create.ts"])
+Game.setModules(["../modules/grid.ts", "../modules/create/index.ts"])

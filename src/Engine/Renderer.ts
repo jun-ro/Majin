@@ -8,8 +8,9 @@ export class RendererClass {
   private animationId: number | null = null;
   private lastTime: number = 0;
   private onFrameRenderCallback?: (deltaTime: number) => void;
-  private pauseTimeoutId: number | null = null; // Tracks pause timeout
+  private pauseTimeoutId: number | null = null;
   private camera: CameraClass;
+  private bufferCallback?: () => any[];
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -120,6 +121,7 @@ export class RendererClass {
   startLoop(callback: () => any[]) {
     if (this.isRunning()) return; // Prevent double-start
     this.lastTime = performance.now(); // Proper init before first loop
+    this.bufferCallback = callback;
     this.renderLoop(callback);
   }
 
@@ -148,5 +150,21 @@ export class RendererClass {
       clearTimeout(this.pauseTimeoutId);
       this.pauseTimeoutId = null;
     }
+  }
+
+  public exportToPng(excludeGrid: boolean = true): void {
+    const buffer = this.bufferCallback ? this.bufferCallback() : [];
+    const filteredBuffer = excludeGrid 
+      ? buffer.filter((item: any) => !item.isGrid && item.isExportable !== false)
+      : buffer.filter((item: any) => item.isExportable !== false);
+    
+    this.render(filteredBuffer);
+    
+    const link = document.createElement('a');
+    link.download = `export-${Date.now()}.png`;
+    link.href = this.canvas.toDataURL('image/png');
+    link.click();
+    
+    this.render(buffer);
   }
 }

@@ -3,17 +3,51 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  display: flex;           /* Keeps your original flex */
-  justify-content: center; /* Centers the canvas horizontally */
-  align-items: center;     /* Centers vertically */
-  background-color: #f0f0f0; /* Optional: Background to see canvas bounds */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  font-family: 'Roboto Mono', monospace;
+  color: black;
+  overflow: hidden;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#title {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  padding: 5px;
 }
 
 #app {
-  width: 800px;  /* Your fixed display width */
-  height: 600px; /* Your fixed display height */
-  border: 1px solid #ccc; /* Optional: Border to visualize the canvas */
-  /* Optional: For crisp rendering (e.g., no blur on edges) */
+  width: 500px;
+  height: 400px;
+  border: 1px solid #ccc;
   image-rendering: pixelated;
   image-rendering: -webkit-optimize-contrast;
+}
+
+#footer {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  color: black;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+#footer span {
 }

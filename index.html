@@ -5,12 +5,27 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
   <title>gini</title>
 </head>
 
 <body>
-  <canvas id="app"></canvas>
+  <div id="container">
+    <div id="title">Gini</div>
+    <canvas id="app"></canvas>
+    <div id="footer">
+      <span>c: Create item</span>
+      <span>x: Delete item</span>
+      <span>Space: Add to path</span>
+      <span>f: Draw lines</span>
+      <span>WASD: Move</span>
+      <span>Q/E: Cycle items</span>
+      <span>Esc: Clear path</span>
+    </div>
+  </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 

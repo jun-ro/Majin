@@ -22,7 +22,8 @@ export class SceneClass {
     width: number,
     height: number,
     color: string,
-    zIndex: number = 0, // Added zIndex parameter
+    zIndex: number = 0,
+    extras?: Record<string, any>,
   ) {
     const rect = {
       type: "rect",
@@ -31,8 +32,9 @@ export class SceneClass {
       width,
       height,
       color,
-      zIndex, // Store zIndex
+      zIndex,
       destroy: () => this.removeItem(rect),
+      ...extras,
     };
 
     this.buffer.push(rect);
@@ -46,7 +48,8 @@ export class SceneClass {
     y2: number,
     color: string,
     lineWidth: number = 1,
-    zIndex: number = 0, // Added zIndex parameter
+    zIndex: number = 0,
+    extras?: Record<string, any>,
   ) {
     const line = {
       type: "line" as const,
@@ -56,8 +59,9 @@ export class SceneClass {
       y2,
       color,
       lineWidth,
-      zIndex, // Store zIndex
+      zIndex,
       destroy: () => this.removeItem(line),
+      ...extras,
     };
 
     this.buffer.push(line);

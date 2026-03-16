@@ -194,4 +194,8 @@ export class Engine {
     );
     void this.setModules(folderPath); // Auto-convert
   }
+
+  public exportCanvas(excludeGrid: boolean = true): void {
+    this.Renderer.exportToPng(excludeGrid);
+  }
 }
