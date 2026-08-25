@@ -1,4 +1,6 @@
 import { Engine, InputState, type InputObject } from "./Engine/index.ts";
+import gridModule from "./modules/grid.ts";
+import createModule from "./modules/create/index.ts";
 
 const canvas: HTMLCanvasElement | null = document.querySelector('#app') as HTMLCanvasElement | null;
 if (!canvas) {
@@ -16,4 +18,4 @@ Engine.mountApp(canvas)
 
 const Game = Engine.Create();
 const InputService = Game.InputService
-Game.setModules(["../modules/grid.ts", "../modules/create/index.ts"])
+Game.setModules([gridModule, createModule])

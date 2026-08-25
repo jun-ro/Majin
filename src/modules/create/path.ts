@@ -13,6 +13,16 @@ export function getDynamicLines() {
   return dynamicLines;
 }
 
+export function removeConnectionsForItems(items: any[]) {
+  const toRemove = dynamicLines.filter(
+    conn => items.includes(conn.startItem) || items.includes(conn.endItem)
+  );
+  toRemove.forEach(conn => conn.line.destroy());
+  dynamicLines = dynamicLines.filter(
+    conn => !items.includes(conn.startItem) && !items.includes(conn.endItem)
+  );
+}
+
 export default {
   async onSetup(engine: Engine) {
     engine.InputService.BindShortcut(["Space"], (input, gpe) => {
@@ -46,7 +56,19 @@ export default {
 
     engine.InputService.BindShortcut(["KeyF"], (input, gpe) => {
       if (gpe) return;
-      if (pathItems.length >= 2) {
+      const allItems = getItemStorage();
+      const selectedItems = allItems.filter((item: any) => item.selected);
+
+      if (selectedItems.length >= 2) {
+        for (let i = 0; i < selectedItems.length - 1; i++) {
+          const start = selectedItems[i];
+          const end = selectedItems[i + 1];
+          const line = engine.Scene.createLine(start.x, start.y, end.x, end.y, "black", 2, 0);
+          dynamicLines.push({ line, startItem: start, endItem: end });
+        }
+        selectedItems.forEach((item: any) => item.selected = false);
+        console.log(`Drew ${selectedItems.length - 1} lines from selection.`);
+      } else if (pathItems.length >= 2) {
         for (let i = 0; i < pathItems.length - 1; i++) {
           const start = pathItems[i];
           const end = pathItems[i + 1];

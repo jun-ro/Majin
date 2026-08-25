@@ -1,4 +1,5 @@
 import { Engine, type InputObject } from "../../Engine/index.ts";
+import { removeConnectionsForItems } from "./path.ts";
 
 const GRID_SIZE = 10;
 
@@ -59,6 +60,7 @@ export default {
       
       const selectedItems = itemStorage.filter((item: any) => item.selected);
       if (selectedItems.length > 0) {
+        removeConnectionsForItems(selectedItems);
         selectedItems.forEach((item: any) => {
           item.destroy();
           const idx = itemStorage.indexOf(item);
@@ -67,6 +69,7 @@ export default {
         console.log(`Deleted ${selectedItems.length} selected items`);
       } else {
         const item = itemStorage[currentItemIndex];
+        removeConnectionsForItems([item]);
         item.destroy();
         itemStorage.splice(currentItemIndex, 1);
       }

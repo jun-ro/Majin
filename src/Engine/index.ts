@@ -78,16 +78,16 @@ export class Engine {
    * - `onSetup(engine)` called once after load.
    * - `onRender`: Auto-detects arity (1=deltaTime only; 2=engine+deltaTime), wrapped for `addFrameUpdate`.
    */
-  public async setModules(paths: string | string[]): Promise<void> {
-    const modulePaths = Array.isArray(paths) ? paths : [paths];
-
-    if (typeof modulePaths[0] === 'string' && !Array.isArray(paths)) {
-      // Single string: Treat as folder glob (Vite support)
-      return this._loadFolderModules(modulePaths[0]);
-    } else {
-      // Array: Explicit paths
-      return this._loadExplicitModules(modulePaths);
+  public async setModules(paths: string | string[] | object[]): Promise<void> {
+    if (typeof paths === 'string') {
+      return this._loadFolderModules(paths);
     }
+    const arr = paths as (string | object)[];
+    if (arr.length > 0 && typeof arr[0] === 'object') {
+      const loaded = (arr as object[]).map((mod, i) => ({ path: String(i), exports: (mod as any).default || mod }));
+      return this._processModules(loaded);
+    }
+    return this._loadExplicitModules(arr as string[]);
   }
 
   // Internal: Load from folder glob (Vite)
